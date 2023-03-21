@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  node_test:
+    restart: always
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - PG_DB=test
+      - PG_USER=me
+      - PG_PASSWORD=password
+      - PG_HOST=node_db
+    depends_on:
+      - node_db
+    volumes:
+      - C:\Users\Public\test_persistent\node_api:/app
+
+  node_db:
+    image: postgres:latest
+    ports: 
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=test
+      - POSTGRES_USER=me
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - node_db_data:/var/lib/postgresql/data
+
+volumes:
+  node_db_data: {}
